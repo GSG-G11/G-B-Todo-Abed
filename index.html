@@ -18,7 +18,6 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="./css/style.css" />
-    <script defer src="./js/script.js"></script>
     <title>TODO</title>
   </head>
   <body>
@@ -31,8 +30,13 @@
       <div class="container">
         <h1 class="logo">TODO</h1>
         <form action="" class="input-form">
-          <button class="btn add-task-btn"></button>
-          <input type="text" class="add-task-input" placeholder="Create a new task..." />
+          <button class="btn add-task-btn" type="button"></button>
+          <input
+            type="text"
+            class="add-task-input"
+            name="task"
+            placeholder="Create a new task..."
+          />
         </form>
         <div class="tasks-list">
           <div class="tasks">
@@ -56,5 +60,6 @@
         </div>
       </div>
     </main>
+    <script src="./js/script.js"></script>
   </body>
 </html>
