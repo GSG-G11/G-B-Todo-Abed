@@ -1,25 +1,23 @@
 const allTasks = document.querySelector('.tasks');
 const taskInput = document.querySelector('.add-task-input');
 const submitBtn = document.querySelector('.add-task-btn');
+const body = document.querySelector('body');
 
-const deleteBtns = document.querySelectorAll('.delete');
-const deleteBtnsArray = Array.from(deleteBtns);
+body.addEventListener('click', function (e) {
+  if (e.target.classList.contains('delete')) {
+    deleteTask(e);
+  }
+});
 
 submitBtn.addEventListener('click', function (e) {
   e.preventDefault;
   createTask();
 });
 
-deleteBtnsArray.forEach(btn => {
-  btn.addEventListener('click', deleteTask);
-});
-
 //Delete Task
-function deleteTask() {
-  const taskRow = document.querySelector('.task-row');
-  allTasks.removeChild(taskRow);
+function deleteTask(e) {
+  e.target.parentElement.parentElement.remove();
 }
-
 //Create Task
 function createTask() {
   const taskEntered = taskInput.value;
@@ -52,10 +50,12 @@ function createTask() {
   const editBtn = document.createElement('i');
   editBtn.classList.add('fas');
   editBtn.classList.add('fa-edit');
+  editBtn.classList.add('edit');
   taskOptions.appendChild(editBtn);
 
   const deleteBtn = document.createElement('i');
   deleteBtn.classList.add('fas');
   deleteBtn.classList.add('fa-trash');
+  deleteBtn.classList.add('delete');
   taskOptions.appendChild(deleteBtn);
 }
