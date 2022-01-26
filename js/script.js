@@ -7,16 +7,47 @@ body.addEventListener('click', function (e) {
   if (e.target.classList.contains('delete')) {
     deleteTask(e);
   }
+
+  if (e.target.classList.contains('edit')) {
+    editTask(e);
+  }
 });
 
 submitBtn.addEventListener('click', function (e) {
   e.preventDefault;
-  createTask();
+  createTask(e);
 });
 
 //Delete Task
 function deleteTask(e) {
   e.target.parentElement.parentElement.remove();
+}
+
+//Edit Task
+
+function editTask(e) {
+  const takRow = e.target.parentElement.parentElement;
+  const taskEdited = takRow.querySelector('h3');
+  taskEdited.setAttribute('contenteditable', 'true');
+  taskEdited.focus();
+
+  taskEdited.addEventListener('blur', function (e) {
+    taskEdited.removeAttribute('contenteditable', 'true');
+    taskEdited.textContent = taskEdited.textContent.trim().replace(/\n/g, ' ');
+
+    if (taskEdited.textContent.trim() == '') {
+      taskEdited.textContent = 'Empty Task';
+    }
+  });
+
+  taskEdited.addEventListener('keyup', function (e) {
+    if (e.keyCode === 13) {
+      taskEdited.removeAttribute('contenteditable');
+      if (taskEdited.textContent.trim() == '') {
+        taskEdited.textContent = 'Empty Task';
+      }
+    }
+  });
 }
 //Create Task
 function createTask() {
