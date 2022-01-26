@@ -43,6 +43,8 @@
   background-color: #fff;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 1.2rem;
   gap: 1.2rem;
 }
 
@@ -53,6 +55,22 @@
   border: none;
   margin-top: 0.4rem;
   font-size: 1.4rem;
+}
+
+.add-task-btn {
+  padding: 0.8rem 1.6rem;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+  background-color: #513acf;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.add-task-btn:hover {
+  background-color: #4a3dba;
 }
 
 .btn {
@@ -69,6 +87,23 @@
 
 .btn:hover {
   border: #513acf solid 2px;
+}
+
+.btn.complete-btn {
+  background-color: #513acf;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn.complete-btn::after {
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
 }
 
 .tasks-list {
@@ -106,6 +141,12 @@
 
 .task h3 {
   font-weight: 400;
+  transition: all 0.2s ease-in-out;
+}
+
+.complete-task {
+  text-decoration: line-through;
+  color: #b4b4b4;
 }
 
 .task-options {
