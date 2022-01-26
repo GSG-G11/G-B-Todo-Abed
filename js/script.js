@@ -11,6 +11,12 @@ body.addEventListener('click', function (e) {
   if (e.target.classList.contains('edit')) {
     editTask(e);
   }
+
+  if (e.target.classList.contains('btn')) {
+    e.target.classList.toggle('complete-btn');
+    const completeTask = e.target.parentElement.querySelector('h3');
+    completeTask.classList.toggle('complete-task');
+  }
 });
 
 submitBtn.addEventListener('click', function (e) {
