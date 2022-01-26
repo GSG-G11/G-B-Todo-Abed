@@ -2,10 +2,23 @@ const allTasks = document.querySelector('.tasks');
 const taskInput = document.querySelector('.add-task-input');
 const submitBtn = document.querySelector('.add-task-btn');
 
+const deleteBtns = document.querySelectorAll('.delete');
+const deleteBtnsArray = Array.from(deleteBtns);
+
 submitBtn.addEventListener('click', function (e) {
   e.preventDefault;
   createTask();
 });
+
+deleteBtnsArray.forEach(btn => {
+  btn.addEventListener('click', deleteTask);
+});
+
+//Delete Task
+function deleteTask() {
+  const taskRow = document.querySelector('.task-row');
+  allTasks.removeChild(taskRow);
+}
 
 //Create Task
 function createTask() {
