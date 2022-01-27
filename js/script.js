@@ -2,6 +2,10 @@ const allTasks = document.querySelector('.tasks');
 const taskInput = document.querySelector('.modal-task-input');
 const submitBtn = document.querySelector('.add-task-btn');
 const createTaskBtn = document.querySelector('.create-task');
+const container = document.querySelector('.container');
+// Get the modal
+const modal = document.getElementById('myModal');
+
 const body = document.querySelector('body');
 
 body.addEventListener('click', function (e) {
@@ -11,6 +15,10 @@ body.addEventListener('click', function (e) {
 
   if (e.target.classList.contains('edit')) {
     editTask(e);
+  }
+
+  if (e.target.classList.contains('details')) {
+    showDetailsModal(e);
   }
 
   if (e.target.classList.contains('btn')) {
@@ -34,8 +42,8 @@ function deleteTask(e) {
 //Edit Task
 
 function editTask(e) {
-  const takRow = e.target.parentElement.parentElement;
-  const taskEdited = takRow.querySelector('h3');
+  const taskRow = e.target.parentElement.parentElement;
+  const taskEdited = taskRow.querySelector('h3');
   taskEdited.setAttribute('contenteditable', 'true');
   taskEdited.focus();
 
@@ -107,13 +115,68 @@ function createTask() {
 
 //Modal
 
-// Get the modal
-const modal = document.getElementById('myModal');
-
 // Get the <span> element that closes the modal
 const span = document.getElementsByClassName('close')[0];
 
 // When the user clicks on the button, open the modal
+
+function showDetailsModal(e) {
+  const detailModal = document.createElement('div');
+  detailModal.classList.add('modal');
+  container.appendChild(detailModal);
+  const detailModalContent = document.createElement('div');
+  detailModalContent.classList.add('modal-content');
+  detailModal.appendChild(detailModalContent);
+  const closeModal = document.createElement('span');
+  closeModal.classList.add('close');
+  closeModal.innerHTML = '&times;';
+
+  detailModalContent.appendChild(closeModal);
+
+  const modalTitle = document.createElement('h2');
+  modalTitle.textContent = 'Task Details';
+  detailModalContent.appendChild(modalTitle);
+
+  const modalBody = document.createElement('div');
+  modalBody.classList.add('modal-body');
+  detailModalContent.appendChild(modalBody);
+
+  const taskRow = e.target.parentElement.parentElement;
+  const taskTitle = taskRow.querySelector('h3');
+
+  const modalTask = document.createElement('p');
+  modalTask.textContent = taskTitle.textContent;
+  modalBody.appendChild(modalTask);
+
+  const taskDate = document.createElement('p');
+  taskDate.textContent = 'Date Created: ' + new Date().toDateString();
+  modalBody.appendChild(taskDate);
+
+  const taskDescription = document.createElement('p');
+  taskDescription.textContent = 'Description: ' + taskTitle.textContent;
+  modalBody.appendChild(taskDescription);
+
+  const taskStatus = document.createElement('p');
+  taskStatus.textContent = `Status: ${
+    taskTitle.classList.contains('complete-task') ? 'Completed' : 'Incomplete'
+  }`;
+  modalBody.appendChild(taskStatus);
+
+  detailModal.style.display = 'block';
+
+  closeModal.addEventListener('click', function (e) {
+    detailModal.remove();
+  });
+
+  //Close the modal when clicked outside the modal
+
+  window.onclick = function (event) {
+    if (event.target == detailModal) {
+      detailModal.remove();
+    }
+  };
+  console.log(taskRow);
+}
 submitBtn.onclick = function () {
   modal.style.display = 'block';
 };
