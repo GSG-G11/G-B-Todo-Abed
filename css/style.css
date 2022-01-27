@@ -158,12 +158,17 @@
 }
 
 .edit,
-.delete {
+.delete,
+.details {
   transition: color 0.2s ease-in-out;
   cursor: pointer;
 }
+
+.details:hover {
+  color: #3543ff;
+}
 .edit:hover {
-  color: #513acf;
+  color: #8170e0;
 }
 
 .delete:hover {
@@ -213,4 +218,83 @@
     margin-top: 33%;
     width: 90%;
   }
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-image: linear-gradient(45deg, #513acf, #b7b3e0);
+  margin: 5% auto; /* 15% from the top and centered */
+  padding: 1.2rem;
+  width: 40%; /* Could be more or less, depending on screen size */
+  box-shadow: 1px 1px 10px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+/* The Close Button */
+.close {
+  color: #fff;
+  float: right;
+  font-size: 2.4rem;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.close:hover,
+.close:focus {
+  color: #4a3dba;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #4a3dba;
+  padding-top: 1.2rem;
+}
+.modal-input-form {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem 2.4rem;
+}
+
+.modal-task-input {
+  font-size: 0.8rem;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 0.8rem;
+  width: 50%;
+}
+
+.task-date {
+  font-size: 0.8rem;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 0.8rem;
+  width: 50%;
+}
+
+.task-description {
+  font-size: 0.8rem;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 0.8rem;
+  width: 75%;
 }
