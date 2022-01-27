@@ -44,6 +44,7 @@ function getTasks() {
     const idContainer = document.createElement('input');
     idContainer.setAttribute('type', 'hidden');
     idContainer.setAttribute('value', taskId);
+    idContainer.setAttribute('name', 'task-id');
     task.appendChild(idContainer);
 
     const completeBtn = document.createElement('button');
@@ -122,9 +123,6 @@ body.addEventListener('click', function (e) {
     //Update the task in local storage
     tasks[taskIndex].status = !tasks[taskIndex].status;
     localStorage.setItem('tasks', JSON.stringify(tasks));
-
-    //Update in the array
-    tasks[taskIndex].status = !tasks[taskIndex].status;
   }
 });
 
@@ -189,6 +187,7 @@ function createTask() {
   const idContainer = document.createElement('input');
   idContainer.setAttribute('type', 'hidden');
   idContainer.setAttribute('value', taskId);
+  idContainer.setAttribute('name', 'task-id');
   task.appendChild(idContainer);
 
   const completeBtn = document.createElement('button');
@@ -288,14 +287,11 @@ function showDetailsModal(e) {
   detailModalContent.appendChild(modalBody);
 
   const taskRow = e.target.parentElement.parentElement;
-  console.log(taskRow.querySelector('input').value);
   const taskTitle = taskRow.querySelector('h3');
   const findTask = tasks.find(function (item) {
-    console.log(item);
     return item.id == taskRow.querySelector('input').value;
   });
 
-  console.log(findTask);
   const modalTask = document.createElement('p');
   modalTask.textContent = `Task: ${findTask.task}`;
   modalBody.appendChild(modalTask);
