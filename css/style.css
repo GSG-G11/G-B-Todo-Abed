@@ -169,30 +169,7 @@
 .active {
   color: #513acf;
 }
-@media screen and (max-width: 931px) {
-  html {
-    font-size: 80.5%;
-  }
-  .banner-img {
-    height: 30vh;
-  }
-  .container {
-    width: 90%;
-    padding: 0 4.8rem;
-  }
-}
-@media screen and (max-width: 391px) {
-  html {
-    font-size: 56%;
-  }
-  .banner-img {
-    height: 30vh;
-  }
-  .container {
-    margin-top: 33%;
-    width: 90%;
-  }
-}
+
 .edit-modal,
 .modal {
   display: none;
@@ -286,4 +263,39 @@
   text-align: center;
   margin-top: 3.2rem;
   color: #424242;
+}
+
+@media screen and (max-width: 931px) {
+  html {
+    font-size: 80.5%;
+  }
+  .banner-img {
+    height: 30vh;
+  }
+  .container {
+    width: 90%;
+    padding: 0 4.8rem;
+  }
+
+  .modal-content {
+    margin-top: 10%;
+    width: 75%;
+  }
+}
+@media screen and (max-width: 391px) {
+  html {
+    font-size: 56%;
+  }
+  .banner-img {
+    height: 30vh;
+  }
+  .container {
+    margin-top: 33%;
+    width: 90%;
+  }
+
+  .modal-content {
+    margin-top: 25%;
+    width: 75%;
+  }
 }
