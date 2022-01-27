@@ -6,6 +6,7 @@ const container = document.querySelector('.container');
 // Get the modal
 const modal = document.getElementsByClassName('modal')[0];
 const editModal = document.getElementsByClassName('edit-modal')[0];
+const clearAllBtn = document.querySelector('.clear-all');
 
 const body = document.querySelector('body');
 
@@ -20,13 +21,27 @@ if (tasks === null) {
 document.addEventListener('DOMContentLoaded', getTasks);
 document.addEventListener('DOMContentLoaded', updateTaskNumber);
 
+//Save Completed Tasks DOM
+document.addEventListener('DOMContentLoaded', function () {
+  const completedTasks = tasks.filter(function (task) {
+    return task.status === true;
+  });
+
+  completedTasks.forEach(function (task) {
+    const taskIdDom = document.querySelector(`[value="${task.id}"]`);
+    const taskRow = taskIdDom.parentElement;
+    taskRow.querySelector('h3').classList.add('complete-task');
+    taskRow.querySelector('button').classList.add('complete-btn');
+  });
+});
 //Check Tasks
 checkTasks();
 
 //TasksNumber r
 function updateTaskNumber() {
   const tasksNumber = document.querySelector('.task-num');
-  tasksNumber.textContent = `${tasks.length} tasks left`;
+  const unFinishedTasks = tasks.filter(task => task.status === false);
+  tasksNumber.textContent = `${unFinishedTasks.length} tasks left`;
 }
 
 //Get Tasks from Local Storage
@@ -123,6 +138,7 @@ body.addEventListener('click', function (e) {
     //Update the task in local storage
     tasks[taskIndex].status = !tasks[taskIndex].status;
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    updateTaskNumber();
   }
 });
 
@@ -362,3 +378,16 @@ createTaskBtn.addEventListener('click', function (e) {
   createTask(e);
   closeModal();
 });
+
+clearAllBtn.addEventListener('click', function (e) {
+  e.preventDefault;
+  clearAllTasks();
+});
+
+function clearAllTasks() {
+  tasks = [];
+  localStorage.clear();
+  clearNoTask();
+  allTasks.innerHTML = '';
+  checkTasks();
+}
