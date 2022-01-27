@@ -8,13 +8,91 @@ const modal = document.getElementById('myModal');
 
 const body = document.querySelector('body');
 
+//Get tasks from local storage
+let tasks = localStorage.getItem('tasks');
+
+if (tasks === null) {
+  tasks = [];
+} else {
+  tasks = JSON.parse(tasks);
+}
+
+function checkTasks() {
+  if (tasks.length === 0) {
+    const noTask = document.createElement('h1');
+    noTask.textContent = 'You have no tasks to do';
+    noTask.classList.add('no-tasks');
+    allTasks.appendChild(noTask);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', getTasks);
+
+function getTasks() {
+  tasks.forEach(item => {
+    const taskRow = document.createElement('div');
+    taskRow.classList.add('task-row');
+    allTasks.appendChild(taskRow);
+
+    const task = document.createElement('div');
+    task.classList.add('task');
+    taskRow.appendChild(task);
+
+    const completeBtn = document.createElement('button');
+    completeBtn.classList.add('btn');
+    task.appendChild(completeBtn);
+
+    const taskTitle = document.createElement('h3');
+
+    taskTitle.textContent = item.task;
+
+    if (item.task.trim() == '') {
+      taskTitle.textContent = 'Empty Task';
+    }
+
+    const taskDate = document.querySelector('.task-date').value;
+    const taskDetails = document.querySelector('.task-description').value;
+
+    task.appendChild(taskTitle);
+
+    const taskOptions = document.createElement('div');
+    taskOptions.classList.add('task-options');
+    taskRow.appendChild(taskOptions);
+
+    const detailsBtn = document.createElement('i');
+    detailsBtn.classList.add('fas');
+    detailsBtn.classList.add('fa-book-open');
+    detailsBtn.classList.add('details');
+    taskOptions.appendChild(detailsBtn);
+
+    const editBtn = document.createElement('i');
+    editBtn.classList.add('fas');
+    editBtn.classList.add('fa-edit');
+    editBtn.classList.add('edit');
+    taskOptions.appendChild(editBtn);
+
+    const deleteBtn = document.createElement('i');
+    deleteBtn.classList.add('fas');
+    deleteBtn.classList.add('fa-trash');
+    deleteBtn.classList.add('delete');
+    taskOptions.appendChild(deleteBtn);
+  });
+}
+
+function clearNoTask() {
+  const noTask = document.querySelector('.no-tasks');
+  noTask.remove();
+}
+
 body.addEventListener('click', function (e) {
   if (e.target.classList.contains('delete')) {
     deleteTask(e);
+    deleteFromLocalStorage(e);
+    checkTasks();
   }
 
   if (e.target.classList.contains('edit')) {
-    editTask(e);
+    editTaskModal(e);
   }
 
   if (e.target.classList.contains('details')) {
@@ -33,11 +111,6 @@ createTaskBtn.addEventListener('click', function (e) {
   createTask(e);
   closeModal();
 });
-
-//Delete Task
-function deleteTask(e) {
-  e.target.parentElement.parentElement.remove();
-}
 
 //Edit Task
 
@@ -65,6 +138,25 @@ function editTask(e) {
     }
   });
 }
+
+//Check Tasks
+checkTasks();
+
+//Delete Task
+
+function deleteTask(e) {
+  const taskRow = e.target.parentElement.parentElement;
+  taskRow.remove();
+}
+
+//Edit Task Modal
+
+function editTaskModal(e) {
+  const taskRow = e.target.parentElement.parentElement;
+  const taskEdited = taskRow.querySelector('h3');
+  modal.style.display = 'block';
+  taskInput.value = taskEdited.textContent;
+}
 //Create Task
 function createTask() {
   const taskEntered = taskInput.value;
@@ -87,6 +179,9 @@ function createTask() {
   if (taskEntered.trim() == '') {
     taskTitle.textContent = 'Empty Task';
   }
+
+  const taskDate = document.querySelector('.task-date').value;
+  const taskDetails = document.querySelector('.task-description').value;
 
   task.appendChild(taskTitle);
 
@@ -111,6 +206,30 @@ function createTask() {
   deleteBtn.classList.add('fa-trash');
   deleteBtn.classList.add('delete');
   taskOptions.appendChild(deleteBtn);
+
+  const item = {
+    task: taskEntered,
+    date: taskDate,
+    detailts: taskDetails,
+    complete: false,
+  };
+
+  tasks.push(item);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  clearNoTask();
+}
+
+//Delete from local Storage
+function deleteFromLocalStorage(e) {
+  const taskRow = e.target.parentElement.parentElement;
+  const taskEdited = taskRow.querySelector('h3');
+  const taskEditedText = taskEdited.textContent;
+  const taskEditedIndex = tasks.findIndex(function (item) {
+    return item.task === taskEditedText;
+  });
+
+  tasks.splice(taskEditedIndex, 1);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 //Modal

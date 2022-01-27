@@ -320,3 +320,9 @@
   padding: 2.4rem 4.8rem;
   border-radius: 10px;
 }
+
+.no-tasks {
+  text-align: center;
+  margin-top: 3.2rem;
+  color: rgb(66, 66, 66);
+}
