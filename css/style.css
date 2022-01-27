@@ -43,7 +43,7 @@
   background-color: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 1.2rem;
   gap: 1.2rem;
 }
@@ -57,9 +57,10 @@
   font-size: 1.4rem;
 }
 
-.add-task-btn {
-  padding: 0.8rem 1.6rem;
-  border-radius: 25px;
+.add-task-btn,
+.edit-task-btn {
+  padding: 0.8rem 6.8rem;
+  border-radius: 10px;
   font-size: 1.2rem;
   color: #fff;
   font-weight: 600;
@@ -69,7 +70,8 @@
   cursor: pointer;
 }
 
-.add-task-btn:hover {
+.add-task-btn,
+.edit-task-btn:hover {
   background-color: #4a3dba;
 }
 
@@ -221,7 +223,8 @@
 }
 
 /* The Modal (background) */
-.modal {
+.modal,
+.edit-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */

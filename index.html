@@ -32,13 +32,7 @@
       <div class="container">
         <h1 class="logo">TODO</h1>
         <form action="" class="input-form">
-          <input
-            type="text"
-            class="add-task-input"
-            name="task"
-            placeholder="Create a new task..."
-          />
-          <button class="add-task-btn" type="button">Add</button>
+          <button class="add-task-btn" type="button">add task</button>
         </form>
         <!-- The Modal -->
         <div id="myModal" class="modal">
@@ -52,6 +46,7 @@
                 class="add-task-input modal-task-input"
                 name="task"
                 placeholder="Create a new task..."
+                required
               />
               <input type="date" name="date" class="task-date" />
               <textarea
@@ -60,6 +55,24 @@
                 placeholder="Task description..."
               ></textarea>
               <button class="add-task-btn create-task" type="button">Add</button>
+            </form>
+          </div>
+        </div>
+        <div id="myModal" class="edit-modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="" class="input-form modal-input-form">
+              <h3 class="modal-title">Task description</h3>
+              <input
+                type="text"
+                class="add-task-input modal-task-input"
+                name="task"
+                required
+              />
+              <input type="date" name="date" class="task-date" value="" />
+              <textarea class="task-description" rows="6"></textarea>
+              <button class="edit-task-btn edit-task" type="button">Edit</button>
             </form>
           </div>
         </div>
@@ -89,7 +102,7 @@
             </div> -->
           </div>
           <div class="task-list-footer">
-            <a class="footer-text">4 Tasks left</a>
+            <a class="footer-text task-num"></a>
             <a class="footer-text active">All</a>
             <a class="footer-text">Active</a>
             <a class="footer-text">Completed</a>
