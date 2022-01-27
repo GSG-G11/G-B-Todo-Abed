@@ -40,6 +40,29 @@
           />
           <button class="add-task-btn" type="button">Add</button>
         </form>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="" class="input-form modal-input-form">
+              <h3 class="modal-title">Task description</h3>
+              <input
+                type="text"
+                class="add-task-input modal-task-input"
+                name="task"
+                placeholder="Create a new task..."
+              />
+              <input type="date" name="date" class="task-date" />
+              <textarea
+                class="task-description"
+                rows="6"
+                placeholder="Task description..."
+              ></textarea>
+              <button class="add-task-btn create-task" type="button">Add</button>
+            </form>
+          </div>
+        </div>
         <div class="tasks-list">
           <div class="tasks">
             <div class="task-row">
@@ -48,6 +71,7 @@
                 <h3 class="complete-task">Workout for 1 hour</h3>
               </div>
               <div class="task-options">
+                <i class="fas fa-book-open details"></i>
                 <i class="fas fa-edit edit"></i>
                 <i class="fa fa-trash delete" aria-hidden="true"></i>
               </div>
@@ -58,6 +82,7 @@
                 <h3>Workout for 1 hour</h3>
               </div>
               <div class="task-options">
+                <i class="fas fa-book-open details"></i>
                 <i class="fas fa-edit edit"></i>
                 <i class="fa fa-trash delete" aria-hidden="true"></i>
               </div>
