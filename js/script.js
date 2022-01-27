@@ -288,18 +288,24 @@ function showDetailsModal(e) {
   detailModalContent.appendChild(modalBody);
 
   const taskRow = e.target.parentElement.parentElement;
+  console.log(taskRow.querySelector('input').value);
   const taskTitle = taskRow.querySelector('h3');
+  const findTask = tasks.find(function (item) {
+    console.log(item);
+    return item.id == taskRow.querySelector('input').value;
+  });
 
+  console.log(findTask);
   const modalTask = document.createElement('p');
-  modalTask.textContent = taskTitle.textContent;
+  modalTask.textContent = `Task: ${findTask.task}`;
   modalBody.appendChild(modalTask);
 
   const taskDate = document.createElement('p');
-  taskDate.textContent = 'Date Created: ' + new Date().toDateString();
+  taskDate.textContent = `Date Created: ${findTask.date}`;
   modalBody.appendChild(taskDate);
 
   const taskDescription = document.createElement('p');
-  taskDescription.textContent = 'Description: ' + taskTitle.textContent;
+  taskDescription.textContent = 'Description: ' + findTask.details;
   modalBody.appendChild(taskDescription);
 
   const taskStatus = document.createElement('p');
@@ -321,7 +327,6 @@ function showDetailsModal(e) {
       detailModal.remove();
     }
   };
-  console.log(taskRow);
 }
 
 submitBtn.onclick = function () {
@@ -346,6 +351,7 @@ window.onclick = function (event) {
     editModal.style.display = 'none';
   }
 };
+
 function checkTasks() {
   if (tasks.length === 0) {
     const noTask = document.createElement('h1');
