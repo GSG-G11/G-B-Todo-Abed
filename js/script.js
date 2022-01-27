@@ -4,30 +4,32 @@ const submitBtn = document.querySelector('.add-task-btn');
 const createTaskBtn = document.querySelector('.create-task');
 const container = document.querySelector('.container');
 // Get the modal
-const modal = document.getElementById('myModal');
+const modal = document.getElementsByClassName('modal')[0];
+const editModal = document.getElementsByClassName('edit-modal')[0];
 
 const body = document.querySelector('body');
 
 //Get tasks from local storage
 let tasks = localStorage.getItem('tasks');
-
 if (tasks === null) {
   tasks = [];
 } else {
   tasks = JSON.parse(tasks);
 }
 
-function checkTasks() {
-  if (tasks.length === 0) {
-    const noTask = document.createElement('h1');
-    noTask.textContent = 'You have no tasks to do';
-    noTask.classList.add('no-tasks');
-    allTasks.appendChild(noTask);
-  }
+document.addEventListener('DOMContentLoaded', getTasks);
+document.addEventListener('DOMContentLoaded', updateTaskNumber);
+
+//Check Tasks
+checkTasks();
+
+//TasksNumber r
+function updateTaskNumber() {
+  const tasksNumber = document.querySelector('.task-num');
+  tasksNumber.textContent = `${tasks.length} tasks left`;
 }
 
-document.addEventListener('DOMContentLoaded', getTasks);
-
+//Get Tasks from Local Storage
 function getTasks() {
   tasks.forEach(item => {
     const taskRow = document.createElement('div');
@@ -37,6 +39,12 @@ function getTasks() {
     const task = document.createElement('div');
     task.classList.add('task');
     taskRow.appendChild(task);
+
+    const taskId = item.id;
+    const idContainer = document.createElement('input');
+    idContainer.setAttribute('type', 'hidden');
+    idContainer.setAttribute('value', taskId);
+    task.appendChild(idContainer);
 
     const completeBtn = document.createElement('button');
     completeBtn.classList.add('btn');
@@ -81,9 +89,10 @@ function getTasks() {
 
 function clearNoTask() {
   const noTask = document.querySelector('.no-tasks');
-  noTask.remove();
+  if (noTask) noTask.remove();
 }
 
+//Check clicking of Buttons for each task
 body.addEventListener('click', function (e) {
   if (e.target.classList.contains('delete')) {
     deleteTask(e);
@@ -103,44 +112,21 @@ body.addEventListener('click', function (e) {
     e.target.classList.toggle('complete-btn');
     const completeTask = e.target.parentElement.querySelector('h3');
     completeTask.classList.toggle('complete-task');
+
+    //Find the task in local storage by id
+    const taskId = e.target.parentElement.querySelector('input').value;
+    const taskIndex = tasks.findIndex(function (item) {
+      return item.id == taskId;
+    });
+
+    //Update the task in local storage
+    tasks[taskIndex].status = !tasks[taskIndex].status;
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    //Update in the array
+    tasks[taskIndex].status = !tasks[taskIndex].status;
   }
 });
-
-createTaskBtn.addEventListener('click', function (e) {
-  e.preventDefault;
-  createTask(e);
-  closeModal();
-});
-
-//Edit Task
-
-function editTask(e) {
-  const taskRow = e.target.parentElement.parentElement;
-  const taskEdited = taskRow.querySelector('h3');
-  taskEdited.setAttribute('contenteditable', 'true');
-  taskEdited.focus();
-
-  taskEdited.addEventListener('blur', function (e) {
-    taskEdited.removeAttribute('contenteditable', 'true');
-    taskEdited.textContent = taskEdited.textContent.trim().replace(/\n/g, ' ');
-
-    if (taskEdited.textContent.trim() == '') {
-      taskEdited.textContent = 'Empty Task';
-    }
-  });
-
-  taskEdited.addEventListener('keyup', function (e) {
-    if (e.keyCode === 13) {
-      taskEdited.removeAttribute('contenteditable');
-      if (taskEdited.textContent.trim() == '') {
-        taskEdited.textContent = 'Empty Task';
-      }
-    }
-  });
-}
-
-//Check Tasks
-checkTasks();
 
 //Delete Task
 
@@ -153,9 +139,40 @@ function deleteTask(e) {
 
 function editTaskModal(e) {
   const taskRow = e.target.parentElement.parentElement;
-  const taskEdited = taskRow.querySelector('h3');
-  modal.style.display = 'block';
-  taskInput.value = taskEdited.textContent;
+  const taskId = taskRow.querySelector('input').value;
+  const taskIndex = tasks.findIndex(function (item) {
+    return item.id == taskId;
+  });
+
+  const closeModal = editModal.querySelector('.close');
+  closeModal.onclick = function () {
+    editModal.style.display = 'none';
+  };
+
+  const task = tasks[taskIndex];
+
+  editModal.style.display = 'block';
+  editModal.querySelector('.modal-task-input').value = task.task;
+  editModal.querySelector('.task-date').value = task.date;
+  editModal.querySelector('.task-description').value = task.details;
+
+  const updateBtn = editModal.querySelector('.edit-task-btn');
+
+  //Update the Task description on click
+  updateBtn.onclick = function () {
+    const task = tasks[taskIndex];
+    const taskTitle = editModal.querySelector('.modal-task-input').value;
+    const taskDate = editModal.querySelector('.task-date').value;
+    const taskDetails = editModal.querySelector('.task-description').value;
+
+    taskRow.querySelector('h3').textContent = taskTitle;
+    task.task = taskTitle;
+    task.date = taskDate;
+    task.details = taskDetails;
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    editModal.style.display = 'none';
+  };
 }
 //Create Task
 function createTask() {
@@ -167,6 +184,12 @@ function createTask() {
   const task = document.createElement('div');
   task.classList.add('task');
   taskRow.appendChild(task);
+
+  const taskId = new Date().getTime();
+  const idContainer = document.createElement('input');
+  idContainer.setAttribute('type', 'hidden');
+  idContainer.setAttribute('value', taskId);
+  task.appendChild(idContainer);
 
   const completeBtn = document.createElement('button');
   completeBtn.classList.add('btn');
@@ -208,15 +231,19 @@ function createTask() {
   taskOptions.appendChild(deleteBtn);
 
   const item = {
+    id: taskId,
     task: taskEntered,
     date: taskDate,
-    detailts: taskDetails,
-    complete: false,
+    details: taskDetails,
+    status: false,
   };
 
   tasks.push(item);
   localStorage.setItem('tasks', JSON.stringify(tasks));
   clearNoTask();
+
+  //Clear Input
+  taskInput.value = '';
 }
 
 //Delete from local Storage
@@ -296,6 +323,7 @@ function showDetailsModal(e) {
   };
   console.log(taskRow);
 }
+
 submitBtn.onclick = function () {
   modal.style.display = 'block';
 };
@@ -313,4 +341,22 @@ window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = 'none';
   }
+
+  if (event.target == editModal) {
+    editModal.style.display = 'none';
+  }
 };
+function checkTasks() {
+  if (tasks.length === 0) {
+    const noTask = document.createElement('h1');
+    noTask.textContent = 'You have no tasks to do';
+    noTask.classList.add('no-tasks');
+    allTasks.appendChild(noTask);
+  }
+}
+
+createTaskBtn.addEventListener('click', function (e) {
+  e.preventDefault;
+  createTask(e);
+  closeModal();
+});
