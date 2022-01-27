@@ -159,12 +159,22 @@
   gap: 1.2rem;
   justify-content: center;
   align-items: center;
-  padding: 1.2rem 0;
+  padding: 1.2rem 2.4rem;
   color: #aaa;
   cursor: pointer;
 }
 .footer-text:first-child {
   flex-basis: 60%;
+}
+
+.footer-text:nth-child(2) {
+  background-color: #e74c3c;
+  text-align: center;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  color: white;
+  flex-basis: 65%;
+  margin-right: 2.4rem;
 }
 .active {
   color: #513acf;
@@ -280,6 +290,10 @@
   .modal-content {
     margin-top: 10%;
     width: 75%;
+  }
+  .task-list-footer {
+    justify-content: center;
+    align-items: center;
   }
 }
 @media screen and (max-width: 391px) {
